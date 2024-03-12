@@ -13,8 +13,8 @@ function love.load()                     --called once at program load
 end
 
 function love.update(dt)                 --dt stands for delta time
-    computerPaddle:update(dt)
-    userPaddle:update(dt)
+    computerPaddle:computerUpdate(dt)
+    userPaddle:userUpdate(dt)
     gameBall:update(dt)
 end
 
