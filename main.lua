@@ -1,3 +1,4 @@
+--main.lua
 function love.load()                     --called once at program load
     io.stdout:setvbuf("no")              --allows the attached console to print content during runtime
     require "src.helpers"                --my personal helper function file
@@ -18,7 +19,7 @@ function love.update(dt)                 --dt stands for delta time
 end
 
 function love.draw()                     --only rendering commands here
-    love.graphics.print("Hello World", 400, 300)
+    love.graphics.print("Super Pong!", 400, 100)
     computerPaddle:draw()
     userPaddle:draw()
     gameBall:draw()
