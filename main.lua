@@ -9,7 +9,7 @@ function love.load()                     --called once at program load
     computerPaddle = Paddle(700, 200)
     userPaddle = Paddle(50, 200)
     gameBall = Ball(375, 150)
-    
+    gameBall:initialize()
 end
 
 function love.update(dt)                 --dt stands for delta time

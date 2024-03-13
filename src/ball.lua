@@ -10,6 +10,25 @@ function Ball:new(x,y)
     self.yMod = 0.5
 end
 
+function Ball:initialize()
+    local thirdWidth = love.graphics.getWidth() / 3
+    local thirdHeight = love.graphics.getHeight() / 3
+
+    -- Set the ball's starting position within the 2nd quadrant
+    self.x = random(thirdWidth, 2 * thirdWidth)
+    self.y = random(thirdHeight / 3, 2 * thirdHeight / 3)
+
+    -- Set the ball's velocity modifiers
+    self.xMod = random(0.5, 0.8)  -- Adjust range based on your preference
+    self.yMod = 1 - gameBall.xMod
+
+    --Chance for ball to start in either direction
+    local directionChance = random(0,1)
+    if directionChance == 1 then
+	    self.xMod = -self.xMod
+    end
+end
+
 function Ball:yBoundCheck()
 	local yBound = love.graphics.getHeight()
 	if (self.y - self.radius <= 0) then
