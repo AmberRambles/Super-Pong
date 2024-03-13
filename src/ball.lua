@@ -29,7 +29,51 @@ function Ball:initialize()
     end
 end
 
+-- Add a new function bounce to the Ball class
+function Ball:bounce(angle)
+    local speed = self.speed
+
+    -- Calculate new xMod and yMod based on the angle
+    self.xMod = math.cos(angle)
+    self.yMod = math.sin(angle)
+
+    -- Reverse the direction
+    self.xMod = -self.xMod
+    self.yMod = -self.yMod
+
+    -- Update the ball's position slightly to prevent getting stuck in the wall
+    self.x = self.x + (self.speed * self.xMod * 0.1)
+    self.y = self.y + (self.speed * self.yMod * 0.1)
+end
+
 function Ball:yBoundCheck()
+    local yBound = love.graphics.getHeight()
+
+    if (self.y - self.radius <= 0) then
+        -- Bounce from top bound
+	print("bounce top")
+        self:bounce(math.rad(90))  -- 90 degrees is the angle for bouncing off the top wall
+    elseif (self.y + self.radius >= yBound) then
+        -- Bounce from bottom bound
+	print("Bounce bottom")
+        self:bounce(math.rad(270))  -- 270 degrees is the angle for bouncing off the bottom wall
+    end
+end
+
+function Ball:xBoundCheck()
+    local xBound = love.graphics.getWidth()
+
+    if (self.x - self.radius <= 0) then
+        -- Point for the opponent
+        print("Point CPU")
+        self:initialize()  -- Reset ball position after scoring
+    elseif (self.x + self.radius >= xBound) then
+        -- Point for the player
+        print("Point Player")
+        self:initialize()  -- Reset ball position after scoring
+    end
+end
+--[[function Ball:yBoundCheck()
 	local yBound = love.graphics.getHeight()
 	if (self.y - self.radius <= 0) then
 		--bounce() --from top bound
@@ -50,7 +94,7 @@ function Ball:xBoundCheck()
 		print("Point Player")
 	end
 end
-
+]]
 function Ball:update(dt)
 	self.x = self.x + (self.speed * self.xMod * dt)
 	self.y = self.y + (self.speed * self.yMod * dt)
