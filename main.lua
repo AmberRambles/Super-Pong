@@ -19,7 +19,7 @@ function love.update(dt)                 --dt stands for delta time
 end
 
 function love.draw()                     --only rendering commands here
-    love.graphics.print("Super Pong!", 400, 100)
+    --love.graphics.print("Super Pong!", 400, 100)
     computerPaddle:draw()
     userPaddle:draw()
     gameBall:draw()
