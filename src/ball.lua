@@ -4,7 +4,7 @@ Ball = Object:extend()
 function Ball:new(x,y)
     self.x = x
     self.y = y
-    self.speed = 100
+    self.speed = 300
     self.radius = 5
     self.xMod = 0.5
     self.yMod = 0.5
@@ -19,7 +19,7 @@ function Ball:initialize()
     self.y = random(thirdHeight / 3, 2 * thirdHeight / 3)
 
     -- Set the ball's velocity modifiers
-    self.xMod = random(0.5, 0.8)  -- Adjust range based on your preference
+    self.xMod = -random(0.5, 0.8)  -- Adjust range based on your preference
     self.yMod = 1 - gameBall.xMod
 
     --Chance for ball to start in either direction
@@ -31,12 +31,11 @@ end
 
 function Ball:setReflection(angle)
     -- Set the new xMod and yMod based on the calculated angle
-    local speed = self.speed
     self.xMod = math.cos(angle)
     self.yMod = math.sin(angle)
 
     -- Reverse the direction
-    self.xMod = -self.xMod
+    --self.xMod = -self.xMod
     self.yMod = -self.yMod
 end
 
@@ -45,16 +44,15 @@ function Ball:yBoundCheck()
 
     if (self.y - self.radius <= 0) then
         -- Bounce from top bound
-        local angleOfIncidence = math.atan2(self.yMod, self.xMod)
-        local angleOfReflection = -angleOfIncidence
-        self:setReflection(angleOfReflection)
-        self.y = self.y + (self.speed * self.yMod * 0.1)  -- Move the ball slightly away from the wall
+        
+        self:setReflection(90)
+        self.y = self.radius + 2  -- Move the ball slightly away from the wall
     elseif (self.y + self.radius >= yBound) then
         -- Bounce from bottom bound
-        local angleOfIncidence = math.atan2(self.yMod, self.xMod)
-        local angleOfReflection = -angleOfIncidence
-        self:setReflection(angleOfReflection)
-        self.y = self.y + (self.speed * self.yMod * 0.1)  -- Move the ball slightly away from the wall
+        --local angleOfIncidence = math.atan2(self.yMod, self.xMod)
+        --local angleOfReflection = -angleOfIncidence
+        self:setReflection(90)
+        self.y = yBound - self.radius - 2  -- Move the ball slightly away from the wall
     end
 end
 
