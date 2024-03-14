@@ -6,7 +6,7 @@ function Paddle:new(x, y) --constructor method for new Paddle object
     self.y = y
     self.width = 5
     self.height = 40
-    self.speed = 200
+    self.speed = 400
 end
 
 function Paddle:yPosCheck()
