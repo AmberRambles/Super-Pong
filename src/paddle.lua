@@ -17,6 +17,26 @@ function Paddle:yPosCheck()
 	end
 end
 
+function Paddle:checkCollision(other)
+    --With locals it's common usage to use underscores instead of camelCasing
+    local a_left = self.x
+    local a_right = self.x + self.width
+    local a_top = self.y
+    local a_bottom = self.y + self.height
+
+    local b_left = other.x
+    local b_right = other.x + other.width
+    local b_top = other.y
+    local b_bottom = other.y + other.height
+
+    --Directly return this boolean value without using if-statement
+    return  a_right > b_left
+        and a_left < b_right
+        and a_bottom > b_top
+        and a_top < b_bottom
+end
+
+
 function Paddle:userUpdate(dt)		 --sets rules for player motion
 	if love.keyboard.isDown("up") then
 		self.y = self.y - (self.speed * dt)
