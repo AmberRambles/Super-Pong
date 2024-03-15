@@ -77,8 +77,10 @@ end
 
 function love.update(dt)		--dt stands for delta time
 	if love.keyboard.isDown("p") then
-		print("p down!")
-		PAUSE = not PAUSE
+		--print("p down!")
+		PAUSE = true
+	elseif love.keyboard.isDown("space") then
+		PAUSE = false
 	end
 	if not PAUSE then
 		computerMovement(dt)
@@ -103,4 +105,7 @@ function love.draw()                     --only rendering commands here
     userPaddle:draw()
     gameBall:draw()
     love.graphics.line(gameBall.x - gameBall.radius - 5, gameBall.y, gameBall.x + gameBall.radius + 5, gameBall.y)
+    if PAUSE then
+	love.graphics.print("PAUSED!\nPress SPACE to continue", 400, 100)
+    end
 end
