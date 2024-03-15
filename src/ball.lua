@@ -44,14 +44,15 @@ function Ball:yBoundCheck()
 
     if (self.y - self.radius <= 0) then
         -- Bounce from top bound
-        
-        self:setReflection(90)
+        self.yMod = -self.yMod
+        --self:setReflection(90)
         self.y = self.radius + 2  -- Move the ball slightly away from the wall
     elseif (self.y + self.radius >= yBound) then
         -- Bounce from bottom bound
         --local angleOfIncidence = math.atan2(self.yMod, self.xMod)
         --local angleOfReflection = -angleOfIncidence
-        self:setReflection(90)
+        --self:setReflection(90)
+	self.yMod = -self.yMod
         self.y = yBound - self.radius - 2  -- Move the ball slightly away from the wall
     end
 end
