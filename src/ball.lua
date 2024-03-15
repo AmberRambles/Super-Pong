@@ -4,8 +4,8 @@ Ball = Object:extend()
 function Ball:new(x,y)
     self.x = x
     self.y = y
-    self.speed = 300
-    self.radius = 5
+    self.speed = 200
+    self.radius = 7
     self.xMod = 0.5
     self.yMod = 0.5
 end
@@ -39,23 +39,19 @@ function Ball:setReflection(angle)
     self.yMod = -self.yMod
 end
 
-function Ball:yBoundCheck()
+--[[function Ball:yBoundCheck()
     local yBound = love.graphics.getHeight()
 
     if (self.y - self.radius <= 0) then
         -- Bounce from top bound
         self.yMod = -self.yMod
-        --self:setReflection(90)
         self.y = self.radius + 2  -- Move the ball slightly away from the wall
     elseif (self.y + self.radius >= yBound) then
-        -- Bounce from bottom bound
-        --local angleOfIncidence = math.atan2(self.yMod, self.xMod)
-        --local angleOfReflection = -angleOfIncidence
-        --self:setReflection(90)
+	 -- Bounce from botttom bound
 	self.yMod = -self.yMod
         self.y = yBound - self.radius - 2  -- Move the ball slightly away from the wall
     end
-end
+end]]
 
 function Ball:xBoundCheck()
     local xBound = love.graphics.getWidth()
@@ -75,9 +71,9 @@ function Ball:update(dt)
 	self.x = self.x + (self.speed * self.xMod * dt)
 	self.y = self.y + (self.speed * self.yMod * dt)
 	self:xBoundCheck()
-	self:yBoundCheck()
+	--self:yBoundCheck()
 end
 
 function Ball:draw()
-    love.graphics.circle("fill", self.x, self.y, self.radius)
+    love.graphics.circle("line", self.x, self.y, self.radius)
 end

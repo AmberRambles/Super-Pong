@@ -43,12 +43,10 @@ function Paddle:userUpdate(dt)		 --sets rules for player motion
 	elseif love.keyboard.isDown("down") then
 		self.y = self.y + (self.speed * dt)
 	end
-	self:yPosCheck()
 end
 
-function Paddle:computerUpdate(dt)
+function Paddle:update()
 	self:yPosCheck()
-    --self.y = self.y + (self.speed * dt)
 end
 
 function Paddle:draw()
