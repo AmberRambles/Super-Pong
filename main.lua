@@ -14,6 +14,9 @@ function love.load()                     --called once at program load
     gameBall.width = gameBall.radius
     gameBall.height = gameBall.radius
     paddleMid = computerPaddle.y + (computerPaddle.height / 2)
+    score = {}
+    score.user = 0
+    score.computer = 0
 end
 
 function computerMovement(dt)
@@ -40,6 +43,25 @@ function yBoundCheck(dt)
     end
 end
 
+function xBoundCheck()
+    local xBound = love.graphics.getWidth()
+
+    if (gameBall.x - gameBall.radius <= 0) then
+        -- Point for the opponent
+        print("Point CPU")
+	score.computer = score.computer + 1
+	print(score.computer)
+        gameBall:initialize()  -- Reset ball position after scoring
+    elseif (gameBall.x + gameBall.radius >= xBound) then
+        -- Point for the player
+        print("Point Player")
+	score.user = score.user + 1
+	print(score.user)
+        gameBall:initialize()  -- Reset ball position after scoring
+    end
+end
+
+
 function love.update(dt)		--dt stands for delta time
 	if love.keyboard.isDown("escape") then
 		PAUSE = true
@@ -53,6 +75,7 @@ function love.update(dt)		--dt stands for delta time
     		userPaddle:userUpdate(dt)
     		gameBall:update(dt)
 		yBoundCheck(dt)
+		xBoundCheck()
     		if computerPaddle:checkCollision(gameBall) then
 	    		print("Ball collided with PC paddle")
 			gameBall.xMod = -gameBall.xMod

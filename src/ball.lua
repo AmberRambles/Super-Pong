@@ -53,24 +53,11 @@ end
     end
 end]]
 
-function Ball:xBoundCheck()
-    local xBound = love.graphics.getWidth()
-
-    if (self.x - self.radius <= 0) then
-        -- Point for the opponent
-        print("Point CPU")
-        self:initialize()  -- Reset ball position after scoring
-    elseif (self.x + self.radius >= xBound) then
-        -- Point for the player
-        print("Point Player")
-        self:initialize()  -- Reset ball position after scoring
-    end
-end
 
 function Ball:update(dt)
 	self.x = self.x + (self.speed * self.xMod * dt)
 	self.y = self.y + (self.speed * self.yMod * dt)
-	self:xBoundCheck()
+	--self:xBoundCheck()
 	--self:yBoundCheck()
 end
 
