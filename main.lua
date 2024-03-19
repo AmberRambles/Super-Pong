@@ -3,23 +3,24 @@ function love.load()                     --called once at program load
     io.stdout:setvbuf("no")              --allows the attached console to print content during runtime
     require "src.helpers"                --my personal helper function file
     Object = require "src.classic"       --the classic package by rxi
-    require "src.paddle" --Paddle class
-    require "src.ball" --Ball class
+    require "src.paddle"                 --Paddle class
+    require "src.ball"                   --Ball class
     PAUSE = false
     randomStartup()                      --primes the Random Number Generator
-    computerPaddle = Paddle(love.graphics.getWidth() - 50, 200)
-    userPaddle = Paddle(50, 200)
+    computerPaddle = Paddle(love.graphics.getWidth() - 15, 200)
+    userPaddle = Paddle(15, 200)
     gameBall = Ball(375, 150)
     gameBall:initialize()
     gameBall.width = gameBall.radius
     gameBall.height = gameBall.radius
+    paddleMid = computerPaddle.y + (computerPaddle.height / 2)
 end
 
 function computerMovement(dt)
-	local paddleMid = (computerPaddle.y + computerPaddle.height) / 2
-	if paddleMid > gameBall.y then
+	paddleMid = computerPaddle.y + (computerPaddle.height / 2)
+	if paddleMid > (gameBall.y + gameBall.radius) then
 		computerPaddle.y = computerPaddle.y - (computerPaddle.speed * dt)
-	elseif paddleMid < gameBall.y then
+	elseif paddleMid < (gameBall.y + gameBall.radius) then
 		computerPaddle.y = computerPaddle.y + (computerPaddle.speed * dt)
 	end
 end
@@ -29,55 +30,18 @@ function yBoundCheck(dt)
 
     if (gameBall.y - gameBall.radius <= 0) then
         -- Bounce from top bound
-        --self.y = self.radius + 2  -- Move the ball slightly away from the wall
-	yBoundCollision(dt)
+	gameBall.yMod = -gameBall.yMod
+        gameBall.y = gameBall.radius + 1  -- Move the ball slightly away from the wall
     elseif (gameBall.y + gameBall.radius >= yBound) then
 	 -- Bounce from botttom bound
-	--self.yMod = -self.yMod
-        --self.y = yBound - self.radius - 2  -- Move the ball slightly away from the wall
-	yBoundCollision(dt)
+	gameBall.yMod = -gameBall.yMod
+        gameBall.y = yBound - gameBall.radius - 1  -- Move the ball slightly away from the wall
 
     end
 end
 
-
-function yBoundCollision(dt)
-	PAUSE = true
-	local ballCenterX = gameBall.x
-	local ballCenterY = gameBall.y
-	local prevBallX = gameBall.x - (gameBall.speed * gameBall.xMod * dt * 3)
-	local prevBallY = gameBall.y - (gameBall.speed * gameBall.yMod * dt * 3)
-	local thirdX = ballCenterX
-	local thirdY = prevBallY
-	local hypotenous = distanceBetweenPoints(ballCenterX, ballCenterY, prevBallX, prevBallY)
-	local opposite = distanceBetweenPoints(prevBallX, prevBallY, thirdX, thirdY)
-	local sineVal = opposite / hypotenous
-	local radianAngle = math.asin(sineVal)
-	local reflectedAngle = math.pi - radianAngle
-	gameBall.xMod = math.cos(reflectedAngle)
-	gameBall.yMod = math.sin(reflectedAngle)
-end
-
-function paddleCollision(dt)
-	PAUSE = true
-	local ballCenterX = gameBall.x
-	local ballCenterY = gameBall.y
-	local prevBallX = gameBall.x - (gameBall.speed * gameBall.xMod * dt * 3)
-	local prevBallY = gameBall.y - (gameBall.speed * gameBall.yMod * dt * 3)
-	local thirdX = prevBallX
-	local thirdY = ballCenterY
-	local hypotenous = distanceBetweenPoints(ballCenterX, ballCenterY, prevBallX, prevBallY)
-	local opposite = distanceBetweenPoints(prevBallX, prevBallY, thirdX, thirdY)
-	local sineVal = opposite / hypotenous
-	local radianAngle = math.asin(sineVal)
-	local reflectedAngle = -radianAngle
-	gameBall.xMod = math.cos(reflectedAngle)
-	gameBall.yMod = math.sin(reflectedAngle)
-end
-
 function love.update(dt)		--dt stands for delta time
-	if love.keyboard.isDown("p") then
-		--print("p down!")
+	if love.keyboard.isDown("escape") then
 		PAUSE = true
 	elseif love.keyboard.isDown("space") then
 		PAUSE = false
@@ -91,10 +55,12 @@ function love.update(dt)		--dt stands for delta time
 		yBoundCheck(dt)
     		if computerPaddle:checkCollision(gameBall) then
 	    		print("Ball collided with PC paddle")
-	    		paddleCollision(dt)
-		    elseif userPaddle:checkCollision(gameBall) then
-	    		paddleCollision(dt)
+			gameBall.xMod = -gameBall.xMod
+			gameBall.x = gameBall.x - 1
+		elseif userPaddle:checkCollision(gameBall) then
 	    		print("Ball collided with User Paddle")
+			gameBall.xMod = -gameBall.xMod
+			gameBall.x = gameBall.x + 1
     		end
 	end
 end
@@ -104,7 +70,7 @@ function love.draw()                     --only rendering commands here
     computerPaddle:draw()
     userPaddle:draw()
     gameBall:draw()
-    love.graphics.line(gameBall.x - gameBall.radius - 5, gameBall.y, gameBall.x + gameBall.radius + 5, gameBall.y)
+    --love.graphics.line(gameBall.x - gameBall.radius - 5, gameBall.y, gameBall.x + gameBall.radius + 5, gameBall.y)
     if PAUSE then
 	love.graphics.print("PAUSED!\nPress SPACE to continue", 400, 100)
     end
