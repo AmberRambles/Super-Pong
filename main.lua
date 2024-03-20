@@ -20,6 +20,8 @@ function love.load()
     score = { user = 0, computer = 0 }
     haleysFont = "fonts/FlatfaceHaleys-Sans.otf"
     love.graphics.setNewFont(haleysFont, 32)
+    paddleSfx = love.audio.newSource("sounds/tone1.ogg", "static")
+    ballResetSfx = love.audio.newSource("sounds/twoTone1.ogg", "static")
 end
 
 function love.update(dt)
@@ -51,9 +53,11 @@ function love.update(dt)
             if computerPaddle:checkCollision(gameBall) then
                 gameBall.xMod = -gameBall.xMod
                 gameBall.x = gameBall.x - 1
+		paddleSfx:play()
             elseif userPaddle:checkCollision(gameBall) then
                 gameBall.xMod = -gameBall.xMod
                 gameBall.x = gameBall.x + 1
+		paddleSfx:play()
             end
         end
     end
@@ -109,10 +113,12 @@ function xBoundCheck()
 
     if (gameBall.x - gameBall.radius <= 0) then
         score.computer = score.computer + 1
+	ballResetSfx:play()
         gameBall:initialize()
     elseif (gameBall.x + gameBall.radius >= xBound) then
         score.user = score.user + 1
-        gameBall:initialize()
+        ballResetSfx:play()
+	gameBall:initialize()
     end
 end
 
