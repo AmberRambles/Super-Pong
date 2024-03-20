@@ -8,6 +8,7 @@ function love.load()
     Object = require "src.classic"
     require "src.paddle"
     require "src.ball"
+    love.window.setTitle("Super Pong")
     PAUSE = false
     randomStartup()
     computerPaddle = Paddle(love.graphics.getWidth() - 15, 200)
