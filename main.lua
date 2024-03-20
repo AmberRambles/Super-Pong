@@ -39,7 +39,7 @@ function love.update(dt)
             PAUSE = true
         elseif love.keyboard.isDown("space") then
             PAUSE = false
-        elseif love. keyboard.isDown("escape") then
+        elseif love.keyboard.isDown("escape") and PAUSE then
 		love.event.quit()
         end
         if not PAUSE then
