@@ -17,6 +17,8 @@ function love.load()                     --called once at program load
     score = {}
     score.user = 0
     score.computer = 0
+    haleysFont = "fonts/FlatfaceHaleys-Sans.otf"
+    love.graphics.setNewFont(haleysFont, 32)
 end
 
 function computerMovement(dt)
@@ -97,8 +99,10 @@ function love.draw()                     --only rendering commands here
 	love.graphics.line(midScreen, movingY, midScreen, movingY + 5)
 	movingY = movingY + 25
     end
-    love.graphics.print("" .. score.user, midScreen - 20, love.graphics.getHeight() / 10)
+    --prints the scoreboard
+    love.graphics.print("" .. score.user, midScreen - 40, love.graphics.getHeight() / 10)
     love.graphics.print("" .. score.computer, midScreen + 20, love.graphics.getHeight() / 10)
+    --prints game pieces
     computerPaddle:draw()
     userPaddle:draw()
     gameBall:draw()
