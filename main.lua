@@ -32,10 +32,12 @@ function love.update(dt)
         end
     elseif gameState == "playing" then
         -- Game logic for playing state
-        if love.keyboard.isDown("escape") then
+        if love.keyboard.isDown("p") then
             PAUSE = true
         elseif love.keyboard.isDown("space") then
             PAUSE = false
+        elseif love. keyboard.isDown("escape") then
+		love.event.quit()
         end
         if not PAUSE then
             -- Game update logic here
@@ -61,7 +63,7 @@ function love.draw()
     if gameState == "menu" then
         -- Draw the menu
         love.graphics.printf("Super Pong", 0, love.graphics.getHeight() / 3, love.graphics.getWidth(), "center")
-        love.graphics.printf("Press Enter to Start\nPress Esc to Quit", 0, love.graphics.getHeight() / 2, love.graphics.getWidth(), "center")
+        love.graphics.printf("Press Enter to Start\nPress Esc to Quit\nPress P to Pause", 0, love.graphics.getHeight() / 2, love.graphics.getWidth(), "center")
     elseif gameState == "playing" then
         -- Draw the game
         local movingY = 0
@@ -76,7 +78,7 @@ function love.draw()
         userPaddle:draw()
         gameBall:draw()
         if PAUSE then
-            love.graphics.print("PAUSED!\nPress SPACE to continue", 400, 100)
+            love.graphics.print("PAUSED!\nPress SPACE to Continue\n\nPress Escape to Quit", 400, 100)
         end
     end
 end
