@@ -1,7 +1,6 @@
 -- main.lua
 
 local gameState = "menu"  -- Set initial game state to menu
-
 function love.load()
     io.stdout:setvbuf("no")
     require "src.helpers"
@@ -12,6 +11,7 @@ function love.load()
     PAUSE = false
     randomStartup()
     computerPaddle = Paddle(love.graphics.getWidth() - 15, 200)
+    computerPaddle.speed = computerPaddle.speed / 6
     userPaddle = Paddle(15, 200)
     gameBall = Ball(375, 150)
     gameBall:initialize()
@@ -88,12 +88,24 @@ function love.draw()
     end
 end
 
+function goUp(dt)
+	computerPaddle.y = computerPaddle.y - (computerPaddle.speed * dt)
+end
+
+function goDown(dt)
+	computerPaddle.y = computerPaddle.y + (computerPaddle.speed * dt)
+end
+
 function computerMovement(dt)
     paddleMid = computerPaddle.y + (computerPaddle.height / 2)
     if paddleMid > (gameBall.y + gameBall.radius) then
-        computerPaddle.y = computerPaddle.y - (computerPaddle.speed * dt)
+	    if random(0.0, 1.0) > 0.5 then
+		    goUp(dt)
+	    end
     elseif paddleMid < (gameBall.y + gameBall.radius) then
-        computerPaddle.y = computerPaddle.y + (computerPaddle.speed * dt)
+	    if random(0.0, 1.0) > 0.5 then
+		    goDown(dt)
+	    end
     end
 end
 
@@ -120,6 +132,7 @@ function xBoundCheck()
         score.user = score.user + 1
         ballResetSfx:play()
 	gameBall:initialize()
+	gameBall.speed = gameBall.speed + 20
     end
 end
 
