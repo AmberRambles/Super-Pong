@@ -4,8 +4,8 @@ Ball = Object:extend()
 function Ball:new(x,y)
     self.x = x
     self.y = y
-    self.speed = 200
-    self.radius = 7
+    self.speed = 150
+    self.radius = 5
     self.xMod = 0.5
     self.yMod = 0.5
 end
@@ -19,7 +19,7 @@ function Ball:initialize()
     self.y = random(thirdHeight / 3, 2 * thirdHeight / 3)
 
     -- Set the ball's velocity modifiers
-    self.xMod = -random(0.5, 0.8)  -- Adjust range based on your preference
+    self.xMod = random(0.3, 0.7)  -- Adjust range based on your preference
     self.yMod = 1 - gameBall.xMod
 
     --Chance for ball to start in either direction
@@ -62,5 +62,5 @@ function Ball:update(dt)
 end
 
 function Ball:draw()
-    love.graphics.circle("line", self.x, self.y, self.radius)
+    love.graphics.circle("fill", self.x, self.y, self.radius)
 end
